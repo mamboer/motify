@@ -1,0 +1,20 @@
+{
+  "name": "motify",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mamboer/motify",
+  "authors": ["Levin Van"],
+  "description": "A mojo-magical notification plugin for modern browers",
+  "main": "dist/motify.js",
+  "keywords": ["notification","notify","notice","tips","callout","message"],
+  "license": "MIT",
+  "ignore": [
+    "gulpfile.js",
+    "*.swig",
+    "src",
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

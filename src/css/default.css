@@ -1,0 +1,70 @@
+/* Common, default styles for the notification box */
+.mt-box {
+  position: fixed;
+  background: rgba(42, 45, 50, 0.85);
+  padding: 22px;
+  line-height: 1.4;
+  z-index: 1000;
+  pointer-events: none;
+  color: rgba(250, 251, 255, 0.95);
+  font-size: 90%;
+  font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, Arial, samt-serif;
+}
+.mt-box.mt-show,
+.mt-box.mt-visible {
+  pointer-events: auto;
+}
+.mt-box a {
+  color: inherit;
+  opacity: 0.7;
+  font-weight: 700;
+}
+.mt-box a:hover,
+.mt-box a:focus {
+  opacity: 1;
+}
+.mt-box p {
+  margin: 0;
+}
+.mt-close {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  overflow: hidden;
+  text-indent: 100%;
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+.mt-close::before,
+.mt-close::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 60%;
+  top: 50%;
+  left: 50%;
+  background: #6e6e6e;
+}
+.mt-close::before {
+  -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      -ms-transform: translate(-50%, -50%) rotate(45deg);
+          transform: translate(-50%, -50%) rotate(45deg);
+}
+.mt-close::after {
+  -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      -ms-transform: translate(-50%, -50%) rotate(-45deg);
+          transform: translate(-50%, -50%) rotate(-45deg);
+}
+.mt-close:hover,
+.mt-close:focus {
+  outline: none;
+}
+.mt-close:hover::before,
+.mt-close:focus::before,
+.mt-close:hover::after,
+.mt-close:focus::after {
+  background: #fff;
+}
