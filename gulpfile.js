@@ -79,6 +79,10 @@ gulp.task('build', function() {
     gulp.src(siteFiles,{base:'.'})
         .pipe(gulp.dest('site'));
 
+    gulp.src(['src/vendors/**'],{base:'src'})
+        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('site/dist'));
+
 
 });
 

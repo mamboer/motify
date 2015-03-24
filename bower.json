@@ -1,11 +1,11 @@
 {
-  "name": "motify",
+  "name": "Motify",
   "version": "1.0.0",
-  "homepage": "https://github.com/mamboer/motify",
+  "homepage": "https://github.com/mamboer/Motify",
   "authors": ["Levin Van"],
-  "description": "A mojo-magical notification plugin for modern browers",
+  "description": "Various creative css3 styles and effects for unobtrusive notifications on a website",
   "main": "dist/motify.js",
-  "keywords": ["notification","notify","notice","tips","callout","message"],
+  "keywords": ["notification","notify","notice","tips","callout","message","css3","growl","animation"],
   "license": "MIT",
   "ignore": [
     "gulpfile.js",

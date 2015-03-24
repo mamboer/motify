@@ -1,7 +1,8 @@
 {
-  "name": "motify",
+  "name": "Motify",
   "version": "1.0.0",
-  "description": "A mojo-magical notification plugin for modern browers",
+  "title": "Creative CSS3 Notification Styles For Modern Browers",
+  "description": "Various creative css3 styles and effects for unobtrusive notifications on a website",
   "main": "dist/motify.js",
   "scripts": {
     "test": "mocha"
@@ -16,7 +17,10 @@
     "notice",
     "tips",
     "callout",
-    "message"
+    "message",
+    "css3",
+    "growl",
+    "animation"
   ],
   "author": "Levin Van",
   "license": "MIT",

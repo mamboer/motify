@@ -16,7 +16,7 @@
         define(['classy'], factory );
     } else {
         // Browser globals
-        root.classy = factory(root.classy);
+        root.Motify = factory(root.classy);
     }
 }(this, function (classy) {
 

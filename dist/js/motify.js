@@ -1,6 +1,6 @@
 /*!
- * motify 1.0.0
- * A mojo-magical notification plugin for modern browers 
+ * Motify 1.0.0
+ * Various creative css3 styles and effects for unobtrusive notifications on a website 
  * Inspired by http://tympanus.net/Development/NotificationStyles/index.html
  * @dependencies 
  *  1. classy.js <http://faso.me/classy>
@@ -16,7 +16,7 @@
         define(['classy'], factory );
     } else {
         // Browser globals
-        root.classy = factory(root.classy);
+        root.Motify = factory(root.classy);
     }
 }(this, function (classy) {
 
