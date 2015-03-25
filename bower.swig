@@ -7,6 +7,9 @@
   "main": "{{main}}",
   "keywords": {{keywords|raw|json}},
   "license": "MIT",
+  "dependencies":{
+      "classor":"~1.0.0"    
+  },
   "ignore": [
     "gulpfile.js",
     "*.swig",
@@ -15,6 +18,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "*.json",
+    "site",
+    "*.html"
   ]
 }

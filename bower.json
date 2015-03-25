@@ -7,6 +7,9 @@
   "main": "dist/motify.js",
   "keywords": ["notification","notify","notice","tips","callout","message","css3","growl","animation"],
   "license": "MIT",
+  "dependencies":{
+      "classor":"~1.0.0"    
+  },
   "ignore": [
     "gulpfile.js",
     "*.swig",
@@ -15,6 +18,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "*.json",
+    "site",
+    "*.html"
   ]
 }

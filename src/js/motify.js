@@ -11,14 +11,16 @@
  * Copyright 2015, FASO.ME <http://www.faso.me>
  */
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
+    if (typeof exports === 'object'){
+        module.exports = factory(require('./classy'));
+    } else if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define(['classy'], factory );
     } else {
         // Browser globals
         root.Motify = factory(root.classy);
     }
-}(this, function (classy) {
+}(this, function (classy,mintpl) {
 
 	var docElem = window.document.documentElement,
 		support = { animations : Modernizr.cssanimations },
@@ -43,6 +45,53 @@
 		return a;
 	}
 
+    function getWrapper( options ){
+        var id = options.elemPrefix+'wrapper',
+            cls = prefixStr(['wrapper','wrapper-'+options.position], options.elemPrefix).join(' '),
+            elem = document.getElementById(id);
+
+        if (!elem){
+            elem = document.createElement('div');
+            elem.className = cls;
+            elem.id = id;
+            document.body.appendChild(elem);
+        }
+        return elem;
+    }
+
+    function prefixStr( strs,prefix){
+        if( typeof(strs) === 'string' ){
+            strs = [strs];    
+        }
+        for(var i =0; i < strs.length; i++){
+            strs[i] = ( prefix || '' ) + strs[i];   
+        }
+        return strs;
+    }
+
+    /**
+    * 简单的html模板解析方法
+    * @public
+    * @function
+    * @example
+    *   var str="<a href=/u/@{uid}>@{username}</a>",
+    *       data={uid:1,username:'levin'};
+    *   alert(evalTpl(str,data));
+    *   //提示信息为："<a href=/u/1>levin</a>"
+    * @param {string} str html模板，字段用%包含
+    * @param {Object} data json数据
+    * @param {Boolean} alternative old-fashion template style like %xxx%
+    */
+    function evalTpl (str, data,alternative) {
+        var result;
+        var patt = new RegExp(alternative?"%([a-zA-z0-9]+)%":"@{([a-zA-z0-9]+)}");
+        while ((result = patt.exec(str)) !== null) {
+            var v = data[result[1]] || '';
+            str = str.replace(new RegExp(result[0], "g"), v);
+        }
+        return str;
+    }
+
 	/**
 	 * Motify function
 	 */
@@ -53,12 +102,10 @@
 	}
 
 	/**
-	 * Motify options
+	 * Motify class
 	 */
 	Motify.prototype.options = {
-		// element to which the notification will be appended
-		// defaults to the document.body
-		wrapper : document.body,
+		elemPrefix:'mt-',
 		// the message
 		message : 'yo!',
 		// layout type: growl|attached|bar|other
@@ -75,6 +122,9 @@
 		// if the user doesn´t close the notification then we remove it 
 		// after the following time
 		ttl : 6000,
+        // right-top,left-top,fluid-top,right-bottom,left-bottom,fluid-bottom
+        position:'right-top',
+        bodyTpl:'<div class="@{elemPrefix}box-inner">@{message}</div><span class="@{elemPrefix}close"></span>',
 		// callbacks
 		onClose : function() { return false; },
 		onOpen : function() { return false; }
@@ -85,18 +135,22 @@
 	 * initialize and cache some vars
 	 */
 	Motify.prototype._init = function() {
-		// create HTML structure
+		this.wrapper = getWrapper(this.options);
+        // create HTML structure
 		this.ntf = document.createElement( 'div' );
-		this.ntf.className = 'mt-box mt-' + this.options.layout + ' mt-effect-' + this.options.effect + ' mt-type-' + this.options.type;
-		var strinner = '<div class="mt-box-inner">';
-		strinner += this.options.message;
-		strinner += '</div>';
-		strinner += '<span class="mt-close"></span></div>';
-		this.ntf.innerHTML = strinner;
+		this.ntf.className = prefixStr(['box', this.options.layout, 'effect-' + this.options.effect, 'type-' + this.options.type, 'pos-' + this.options.position ], this.options.elemPrefix ).join(' ');
+		this.ntf.innerHTML = evalTpl(this.options.bodyTpl,this.options);
+
+        this.options.clClose = this.options.elemPrefix + 'close';
+        this.options.clShow = this.options.elemPrefix + 'show';
+        this.options.clHide = this.options.elemPrefix + 'hide';
 
 		// append to body or the element specified in options.wrapper
-		this.options.wrapper.insertBefore( this.ntf, this.options.wrapper.firstChild );
-
+        if(this.options.position.slice(-3) === 'top'){
+            this.wrapper.appendChild( this.ntf );
+        } else {
+            this.wrapper.insertBefore( this.ntf, this.wrapper.firstChild );
+        }
 		// dismiss after [options.ttl]ms
 		var self = this;
 		
@@ -118,7 +172,7 @@
 	Motify.prototype._initEvents = function() {
 		var self = this;
 		// dismiss notification
-		this.ntf.querySelector( '.mt-close' ).addEventListener( 'click', function() { self.dismiss(); } );
+		this.ntf.querySelector( '.'+this.options.clClose ).addEventListener( 'click', function() { self.dismiss(); } );
 	};
 
 	/**
@@ -126,8 +180,8 @@
 	 */
 	Motify.prototype.show = function() {
 		this.active = true;
-		classy.remove( this.ntf, 'mt-hide' );
-		classy.add( this.ntf, 'mt-show' );
+		classy.remove( this.ntf, this.options.clHide );
+		classy.add( this.ntf, this.options.clShow );
 		if (typeof this.options.onOpen === 'function')
 			this.options.onOpen();
 	};
@@ -139,9 +193,9 @@
 		var self = this;
 		this.active = false;
 		clearTimeout( this.dismissttl );
-		classy.remove( this.ntf, 'mt-show' );
+		classy.remove( this.ntf, this.options.clShow );
 		setTimeout( function() {
-			classy.add( self.ntf, 'mt-hide' );
+			classy.add( self.ntf, self.options.clHide );
 			
 			// callback
 			if (typeof self.options.onClose === 'function')
@@ -154,7 +208,7 @@
 				if( ev.target !== self.ntf ) return false;
 				this.removeEventListener( animEndEventName, onEndAnimationFn );
 			}
-			self.options.wrapper.removeChild( this );
+			self.wrapper.removeChild( this );
 		};
 
 		if( support.animations ) {

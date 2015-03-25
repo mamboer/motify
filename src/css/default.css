@@ -1,10 +1,46 @@
 /* Common, default styles for the notification box */
-.mt-box {
+.mt-wrapper * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.mt-wrapper {
   position: fixed;
+  z-index: 9999;
+}
+.mt-wrapper:before,
+.mt-wrapper:after {
+  content: " ";
+  display: table;
+}
+.mt-wrapper:after {
+  clear: both;
+}
+.mt-wrapper-right-top,
+.mt-wrapper-left-top {
+  padding-top: 20px;
+  top: 0;
+}
+.mt-wrapper-right-bottom,
+.mt-wrapper-left-bottom {
+  padding-bottom: 20px;
+  left: 0;
+}
+.mt-wrapper-fluid-top,
+.mt-wrapper-fluid-bottom {
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.mt-wrapper-fluid-bottom {
+  top: auto;
+  bottom: 0;
+}
+.mt-box {
+  position: relative;
   background: rgba(42, 45, 50, 0.85);
   padding: 22px;
   line-height: 1.4;
-  z-index: 1000;
   pointer-events: none;
   color: rgba(250, 251, 255, 0.95);
   font-size: 90%;
@@ -25,6 +61,35 @@
 }
 .mt-box p {
   margin: 0;
+}
+.mt-wrapper-fluid-top .mt-box,
+.mt-wrapper-fluid-bottom .mt-box {
+  width: 100%;
+  border-radius: 0;
+}
+.mt-wrapper-fluid-top .mt-box {
+  margin-top: 0;
+}
+.mt-wrapper-fluid-bottom .mt-box {
+  margin-bottom: 0;
+}
+.mt-wrapper-right-top,
+.mt-wrapper-right-bottom {
+  padding-right: 20px;
+  right: 0;
+}
+.mt-wrapper-right-top .mt-box,
+.mt-wrapper-right-bottom .mt-box {
+  float: right;
+}
+.mt-wrapper-left-top,
+.mt-wrapper-left-bottom {
+  padding-left: 20px;
+  left: 0;
+}
+.mt-wrapper-left-top .mt-box,
+.mt-wrapper-left-bottom .mt-box {
+  float: left;
 }
 .mt-close {
   width: 20px;
