@@ -43,7 +43,7 @@ gulp.task('css',function(){
 });
 
 gulp.task('watch', function() {
-    gulp.watch('src/less/*.less', ['less','css','build']);  // Watch all the .less files, then run the less task
+    gulp.watch('src/less/**/*.less', ['less','css','build']);  // Watch all the .less files, then run the less task
     gulp.watch('src/js/*.js',['lint','build']);
 });
 
